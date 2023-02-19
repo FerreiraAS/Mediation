@@ -1,16 +1,16 @@
 # restart all variables
 rm(list = ls(all = TRUE))
-options(warn = -1)
 
-# PACKAGES FOR MEDIATION ANALYSIS
-require(mediation)
-library(mediation)
-# PACKAGE FOR MODEL DRAWING
-require(diagram)
-library(diagram)
-# PACKAGE FOR READING DATA FILE
-require(readxl)
-library(readxl)
+# install and load required packages
+packages <- c("mediation", "diagram", "readxl")
+# Install packages not yet installed
+installed_packages <-
+  packages %in% rownames(installed.packages())
+if (any(installed_packages == FALSE)) {
+  install.packages(packages[!installed_packages])
+}
+# Packages loading
+invisible(lapply(packages, library, character.only = TRUE))
 
 # number of decimal digits to show
 signif <- 2
@@ -36,7 +36,7 @@ datasets <- list(T1 = banco_med)
 # Manipulation vs. Myofascial (1 vs. 2)
 banco_med <-
   banco_med[which(banco_med[, col.interv] == 1 |
-                    banco_med[, col.interv] == 2),]
+                    banco_med[, col.interv] == 2), ]
 Intervention <-
   factor(Intervention, levels = c(1, 2), labels = c(1, 0))
 
